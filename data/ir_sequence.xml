@@ -1,0 +1,9 @@
+<odoo>
+  <record id="seq_stock_quant_barcode" model="ir.sequence">
+    <field name="name">Quant Barcode</field>
+    <field name="code">stock.quant.barcode</field>
+    <field name="prefix">PKG</field>
+    <field name="padding">7</field>
+    <field name="implementation">no_gap</field>   <!-- 🔥 this forces strict sequence -->
+  </record>
+</odoo>

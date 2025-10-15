@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="report_lot_barcodes_barcode_action" model="ir.actions.report">
+    <field name="name">Lot Barcodes</field>
+    <field name="model">product.template</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">stock_quantity_scan.report_lot_barcodes_doc</field>
+    <field name="report_file">stock_quantity_scan.report_lot_barcodes_doc</field>
+    <field name="binding_model_id" ref="product.model_product_template" />
+    <field name="binding_type">report</field>
+    <field name="print_report_name">'Lot Barcodes - %s' % (object.display_name)</field>
+  </record>
+
+  <template id="report_lot_barcodes_doc">
+    <t t-call="web.html_container">
+      <!-- don’t rely on docs; read from data -->
+      <t t-set="prod" t-value="env['product.template'].browse((data or {}).get('product_tmpl_id'))" />
+      <t t-set="quants"
+        t-value="env['stock.quant'].sudo().browse((data or {}).get('quant_ids', []))" />
+
+      <t t-call="web.basic_layout">
+        <div class="page" style="padding:24px;">
+          <!-- <h2>
+            Lot Barcodes — <t t-esc="prod and prod.display_name or 'Product'"/>
+          </h2> -->
+
+          <t t-if="quants">
+            <t t-foreach="quants" t-as="q">
+              <div
+                style="border:1px solid #000; padding:14px 18px; margin:14px 0; width:480px; text-align:center;">
+                <h3 style="margin:0 0 10px 0;">
+                  <t t-esc="(q.lot_id and q.lot_id.name) or 'No Lot'" />
+                </h3>
+
+                <!-- choose a printable code -->
+                <!-- choose a printable code: lot + quantity -->
+                <t t-set="code_base" t-value="q.scan_barcode or (q.lot_id and q.lot_id.name) or ''" />
+                <t t-set="qty_int" t-value="int(round(q.quantity or 0))" />
+                <t t-set="code_full" t-value="code_base and (code_base + '/' + str(qty_int)) or ''" />
+
+                <t t-if="code_full">
+                  <img t-att-src="'/report/barcode/Code128/' + code_full + '/220/60'"
+                    style="height:60px; display:block; margin:4px auto 6px auto;" />
+                  <div style="font-size:14px; letter-spacing:1px;">
+                    <t t-esc="code_base" />
+                  </div>
+                </t>
+
+                <div style="margin-top:6px; font-size:12px; color:#444;"> Qty: <t t-esc="q.quantity" />
+                  — <t t-esc="q.location_id.display_name" />
+                </div>
+              </div>
+            </t>
+          </t>
+          <t t-if="not quants">
+            <p style="color:#888;">No quants found to print.</p>
+          </t>
+        </div>
+      </t>
+    </t>
+  </template>
+</odoo>

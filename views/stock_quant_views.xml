@@ -1,0 +1,72 @@
+
+
+<!-- <?xml version="1.0" encoding="utf-8"?> -->
+<odoo>
+
+  <!-- UPDATE QUANTITY (Quants list) -->
+  <record id="view_quant_list_inherit_scan" model="ir.ui.view">
+    <field name="name">stock.quant.list.scan.barcode</field>
+    <field name="model">stock.quant</field>
+    <field name="inherit_id" ref="stock.view_stock_quant_tree_editable"/>
+    <field name="arch" type="xml">
+
+      <!-- Keep the base list behavior (do NOT kill create), only add our column + button -->
+      <xpath expr="//list/field[@name='lot_id']" position="after">
+        <field name="scan_barcode" string="Quant Barcode" optional="show" readonly="1"/>
+
+        <field name="net_weight" string="Net Weight" optional="show"/>
+        <field name="tare_weight" string="Tare Weight" optional="show"/>
+
+        <button name="action_generate_barcode"
+                type="object"
+                string="Generate Barcode"
+                class="btn-secondary"
+                invisible="(id == False) or (scan_barcode != False)"
+                groups="stock.group_stock_manager"/>
+      </xpath>
+
+    </field>
+  </record>
+
+  <!-- QUANT FORM: show barcode + generator -->
+  <record id="view_quant_form_inherit_scan" model="ir.ui.view">
+    <field name="name">stock.quant.form.scan.barcode</field>
+    <field name="model">stock.quant</field>
+    <field name="inherit_id" ref="stock.view_stock_quant_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//form//field[@name='lot_id']" position="after">
+        <field name="scan_barcode" readonly="1"/>
+
+        <field name="net_weight"/>
+        <field name="tare_weight"/>
+        
+        <button name="action_generate_barcode"
+                type="object"
+                string="Generate Barcode"
+                class="oe_highlight"
+                invisible="scan_barcode != False"
+                groups="stock.group_stock_manager"/>
+      </xpath>
+    </field>
+  </record>
+
+ 
+    <record id="view_product_template_form_inherit_lot_barcode_print" model="ir.ui.view">
+      <field name="name">product.template.form.lot.barcode.print</field>
+      <field name="model">product.template</field>
+      <field name="inherit_id" ref="product.product_template_only_form_view"/>
+      <field name="arch" type="xml">
+        <xpath expr="//form/header" position="inside">
+          <button name="action_open_lot_barcode_wizard"
+                  type="object"
+                  string="Print Lot Barcodes"
+                  class="btn-primary"
+                  groups="stock.group_stock_manager"/>
+        </xpath>
+      </field>
+    </record>
+
+
+
+
+</odoo>
