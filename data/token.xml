@@ -1,0 +1,8 @@
+<odoo>
+    <data>
+        <record id="system_parameter_token" model="ir.config_parameter">
+            <field name="key">stock_quantity_scan.scan_token</field>
+            <field name="value">uP6U29gWw2z9U</field>
+        </record>
+    </data>
+</odoo>        

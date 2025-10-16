@@ -24,6 +24,7 @@ Long description of module's purpose
     'data': [
         'security/ir.model.access.csv',
         'data/ir_sequence.xml',
+        'data/token.xml',
         'reports/lot_barcode_report.xml',
         'reports/lot_barcodes_chalan.xml',
         'views/lot_barcode_wizard_views.xml',
