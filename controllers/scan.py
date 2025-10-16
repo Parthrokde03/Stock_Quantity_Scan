@@ -75,7 +75,7 @@ def _consume_quant(code, token, product_tmpl_id=None):
     return {
         "ok": True,
         "quant_id": quant.id if quant and not removed else None,
-        "removed": removed,
+        # "removed": removed,
         "new_qty": 0.0 if removed else new_qty,
         "scanned": code,
     }
