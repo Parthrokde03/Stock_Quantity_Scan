@@ -55,7 +55,9 @@ class ReportPackingSlip(models.AbstractModel):
                 "net_weight": format_weight(q.net_weight),         # always decimal
                 "tare_weight": format_weight(q.tare_weight),       # always decimal
                 "gross_weight": format_weight(gross_weight),       # always decimal
-                "product_name": q.product_id.name,     
+                "product_name": q.product_id.with_context(display_default_code=False).display_name,
+                # "product_name": q.product_id.display_name,
+                # "product_name": q.product_id.name,     
             })
 
 

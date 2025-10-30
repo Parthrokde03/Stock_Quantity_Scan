@@ -20,7 +20,7 @@
   </record>
 
   <record id="report_lot_barcodes_chalan_action" model="ir.actions.report">
-    <field name="name">Packing Slip (Static)</field>
+    <field name="name">Packing Slip</field>
     <field name="model">product.template</field>
     <field name="report_type">qweb-pdf</field>
     <field name="report_name">stock_quantity_scan.report_lot_barcodes_chalan_doc</field>
